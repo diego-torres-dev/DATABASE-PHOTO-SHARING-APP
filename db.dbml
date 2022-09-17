@@ -22,6 +22,14 @@ Table comments {
   post_id INTEGER
 }
 
+Table likes {
+  id SERIAL [pk, increment]
+  created_at TIMESTAMP
+  user_id INTEGER
+  post_id INTEGER
+  comment_id INTEGER
+}
+
 Ref {
   posts.user_id > users.id
 }
@@ -32,4 +40,16 @@ Ref {
 
 Ref {
   comments.post_id > post.id
+}
+
+Ref {
+  likes.user_id > users.id
+}
+
+Ref {
+  likes.post_id > posts.id
+}
+
+Ref {
+  likes.comment_id > comments.id
 }
