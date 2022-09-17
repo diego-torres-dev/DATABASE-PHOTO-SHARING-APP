@@ -33,6 +33,23 @@ Table likes {
   comment_id INTEGER
 }
 
+Table post_tags {
+  id SERIAL [pk, increment]
+  created_at TIMESTAMP
+  updated_at TIMESTAMP
+  user_id INTEGER
+  post_id INTEGER
+  x INTEGER
+  y INTEGER
+}
+
+Table caption_tags {
+  id SERIAL [pk, increment]
+  created_at TIMESTAMP
+  user_id INTEGER
+  post_id INTEGER
+}
+
 Ref {
   posts.user_id > users.id
 }
@@ -55,4 +72,20 @@ Ref {
 
 Ref {
   likes.comment_id > comments.id
+}
+
+Ref {
+  post_tags.user_id > users.id
+}
+
+Ref {
+  post_tags.post_id > posts.id
+}
+
+Ref {
+  caption_tags.user_id > users.id
+}
+
+Ref {
+  caption_tags.post_id > posts.id
 }
