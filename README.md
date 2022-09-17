@@ -10,3 +10,5 @@ O objetivo deste projeto é modelar um banco de dados para uma aplicação de co
 - Sistema de seguidores
 
 Na pasta **ERD**, encontram-se os diagramas de entidade-relacionamento que são gerados pela ferramenta disponível no site [dbdiagram.io](https://dbdiagram.io/home).
+
+Caso queira visualizar o diagrama entidade relacionamento deste projeto, clique neste [link](https://dbdiagram.io/d/63231cd20911f91ba5bb383e).
