@@ -84,6 +84,15 @@ Table hashtags_posts {
   post_id INTEGER
 }
 
+// Tabela de seguidores
+// Tabela fato
+Table followers {
+  id SERIAL [pk, increment]
+  created_at TIMESTAMP
+  followee_id INTEGER
+  follower_id INTEGER
+}
+
 // Um usuário pode ter muitas publicações
 Ref {
   users.id < posts.user_id
@@ -141,4 +150,12 @@ Ref {
 // Uma hashtag pode ser usada muitas vezes dentro de uma publicação
 Ref {
   posts.id < hashtags_posts.post_id
+}
+
+Ref {
+  users.id < followers.followee_id
+}
+
+Ref {
+  users.id < followers.follower_id
 }
