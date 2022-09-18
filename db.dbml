@@ -50,6 +50,18 @@ Table caption_tags {
   post_id INTEGER
 }
 
+Table hashtags {
+  id SERIAL [pk, increment]
+  created_at TIMESTAMP
+  title VARCHAR(20)
+}
+
+Table hashtags_posts {
+  id SERIAL [pk, increment]
+  hashtag_id INTEGER
+  post_id INTEGER
+}
+
 Ref {
   posts.user_id > users.id
 }
@@ -88,4 +100,12 @@ Ref {
 
 Ref {
   caption_tags.post_id > posts.id
+}
+
+Ref {
+  hashtags_posts.hashtag_id > hashtags.id
+}
+
+Ref {
+  hashtags_posts.post_id > posts.id
 }
