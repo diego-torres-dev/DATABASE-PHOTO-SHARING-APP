@@ -1,3 +1,5 @@
+// Tabela de usuários da aplicação
+// Tabela dimensão
 Table users {
   id SERIAL [pk, increment]
   created_at TIMESTAMP
@@ -5,6 +7,8 @@ Table users {
   username VARCHAR(30)
 }
 
+// Tabela de publicações (fotos)
+// Tabela fato
 Table posts {
   id SERIAL [pk, increment]
   created_at TIMESTAMP
@@ -16,6 +20,8 @@ Table posts {
   lng REAL
 }
 
+// Tabela de comentários 
+// Tabela fato
 Table comments {
   id SERIAL [pk, increment]
   created_at TIMESTAMP
@@ -25,6 +31,8 @@ Table comments {
   post_id INTEGER
 }
 
+// Tabela de likes (curtidas)
+// Tabela fato
 Table likes {
   id SERIAL [pk, increment]
   created_at TIMESTAMP
@@ -33,6 +41,8 @@ Table likes {
   comment_id INTEGER
 }
 
+// Tabela de tags em publicações (uma tag é uma menção a outro usuário da aplicação)
+// Tabela fato
 Table post_tags {
   id SERIAL [pk, increment]
   created_at TIMESTAMP
@@ -43,6 +53,8 @@ Table post_tags {
   y INTEGER
 }
 
+// Tabela de tags em legendas
+// Tabela fato
 Table caption_tags {
   id SERIAL [pk, increment]
   created_at TIMESTAMP
@@ -50,62 +62,77 @@ Table caption_tags {
   post_id INTEGER
 }
 
+// Tabela de hashtags
+// Tabela dimensão
 Table hashtags {
   id SERIAL [pk, increment]
   created_at TIMESTAMP
   title VARCHAR(20)
 }
 
+// Tabela de hashtags em publicações
+// Tabela fato
 Table hashtags_posts {
   id SERIAL [pk, increment]
   hashtag_id INTEGER
   post_id INTEGER
 }
 
+// Um usuário pode ter muitas publicações
 Ref {
-  posts.user_id > users.id
+  users.id < posts.user_id
+}
+
+// Um usuário pode escrever muitos comentários
+Ref {
+  users.id < comments.user_id
+}
+
+// Uma publicação pode ter muitos comentários
+Ref {
+  post.id < comments.post_id
+}
+
+// Um usuário pode curtir muitas publicações e/ou comentários
+Ref {
+  users.id < likes.user_id
+}
+
+// Uma publicação pode receber muitas curtidas
+Ref {
+  posts.id < likes.post_id
+}
+
+// Um comentário pode receber muitas curtidas
+Ref {
+  comments.id < likes.comment_id
+}
+
+// Um usuário pode ser mencionado muitas vezes
+Ref {
+  users.id < post_tags.user_id
+}
+
+// Uma publicação pode conter muitas menções
+Ref {
+  posts.id < post_tags.post_id
+}
+
+// Um usuário pode ser mencionado muitas vezes numa legenda
+Ref {
+  users.id < caption_tags.user_id
+}
+
+// Uma publicação pode conter muitas menções na legenda
+Ref {
+  posts.id < caption_tags.post_id
 }
 
 Ref {
-  comments.user_id > users.id
+  hashtags.id < hashtags_posts.hashtag_id
 }
 
+// Uma hashtag pode ser usada muitas vezes dentro de uma publicação
 Ref {
-  comments.post_id > post.id
-}
-
-Ref {
-  likes.user_id > users.id
-}
-
-Ref {
-  likes.post_id > posts.id
-}
-
-Ref {
-  likes.comment_id > comments.id
-}
-
-Ref {
-  post_tags.user_id > users.id
-}
-
-Ref {
-  post_tags.post_id > posts.id
-}
-
-Ref {
-  caption_tags.user_id > users.id
-}
-
-Ref {
-  caption_tags.post_id > posts.id
-}
-
-Ref {
-  hashtags_posts.hashtag_id > hashtags.id
-}
-
-Ref {
-  hashtags_posts.post_id > posts.id
+  posts.id < hashtags_posts.post_id
 }
